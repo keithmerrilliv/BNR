@@ -5,7 +5,7 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>0A302AC8-16A2-41B6-9CA1-37EEF8DA1B6C</string>
+	<string>AD9404BD-7ECE-40AE-8F1E-BD9B1AB5F60D</string>
 	<key>IDESourceControlProjectName</key>
 	<string>cmEditDemo</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
@@ -34,7 +34,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>2CB41D8C-1B55-40FB-86D8-3A1BE97E7DA4</string>
 			<key>IDESourceControlWCCName</key>
-			<string>BNR</string>
+			<string>cmEditDemo</string>
 		</dict>
 	</array>
 </dict>
