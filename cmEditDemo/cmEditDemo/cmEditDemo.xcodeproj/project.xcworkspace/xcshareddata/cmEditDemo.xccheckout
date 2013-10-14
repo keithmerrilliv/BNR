@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>0A302AC8-16A2-41B6-9CA1-37EEF8DA1B6C</string>
+	<key>IDESourceControlProjectName</key>
+	<string>cmEditDemo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>2CB41D8C-1B55-40FB-86D8-3A1BE97E7DA4</key>
+		<string>https://keithmerrill.unfuddle.com/git/keithmerrill_bnr/</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>cmEditDemo/cmEditDemo/cmEditDemo.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>2CB41D8C-1B55-40FB-86D8-3A1BE97E7DA4</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://keithmerrill.unfuddle.com/git/keithmerrill_bnr/</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>2CB41D8C-1B55-40FB-86D8-3A1BE97E7DA4</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>2CB41D8C-1B55-40FB-86D8-3A1BE97E7DA4</string>
+			<key>IDESourceControlWCCName</key>
+			<string>BNR</string>
+		</dict>
+	</array>
+</dict>
+</plist>
