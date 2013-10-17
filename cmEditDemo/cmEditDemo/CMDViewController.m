@@ -10,14 +10,17 @@
 
 #import "CMDViewController.h"
 #import "CMDMyScene.h"
+#import "ItemsViewController.h"
+#import "BNRItem.h"
+#import "BNRItemStore.h"
+#import "HomepwnerItemCell.h"
 
 @interface CMDViewController ()
 {
     SEssentialsTabbedView *tabbedView;
-//    SEssentialsCarouselLinear2D *carousel;
-//    SEssentialsCarouselInverseCylindrical *carousel;
     SEssentialsCoverFlow *carousel;
     NSMutableArray *items;
+    UITableView *tv;
 }
 @end
 
@@ -26,44 +29,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-//    // Configure the view.
-//    SKView * skView = (SKView *)self.view;
-//    skView.showsFPS = YES;
-//    skView.showsNodeCount = YES;
-//    
-//    // Create and configure the scene.
-//    SKScene * scene = [CMDMyScene sceneWithSize:skView.bounds.size];
-//    scene.scaleMode = SKSceneScaleModeAspectFill;
-//    
-//    // Present the scene.
-//    [skView presentScene:scene];
-//    
-//    
-//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//    // Override point for customization after application launch.
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-//        viewController = [[CMDViewController alloc] initWithNibName:@"ViewController_iPhone" bundle:nil];
-//    } else {
-//        viewController = [[CMDViewController alloc] initWithNibName:@"ViewController_iPad" bundle:nil];
-//    }
-//    self.window.rootViewController = viewController;
-//    [self.window makeKeyAndVisible];
-    
     [self showTabbedView];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-//    [tabbedView activateTabDisplayedAtIndex:1];
-//    [tabbedView activateTabDisplayedAtIndex:0];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     [tabbedView activateTabDisplayedAtIndex:0];
 }
 
@@ -87,16 +58,12 @@
 - (void)showTabbedView
 {
     tabbedView = [[SEssentialsTabbedView alloc] initWithFrame:self.view.bounds];
-    [self setupTabCalled:@"Videos"];
+    [self setupTabCalled:@"Inventory"];
+    [self setupTabCalled:@"Gallery"];
     [self setupTabCalled:@"Editor"];
-//    [self setupTabCalled:@"Welcome"];
-//    [tabbedView activateTabDisplayedAtIndex:1];
     [self.view addSubview:tabbedView];
     
-//    [tabbedView removeTabDisplayedAtIndex:0];
-    
     tabbedView.dataSource = self;
-//    tabbedView.hasNewTabButton = YES;
     tabbedView.editable = NO;
 }
 
@@ -130,14 +97,13 @@
 
 - (UIView *)tabbedView:(SEssentialsTabbedView *)_tabbedView contentForTab:(SEssentialsTab *)tab
 {
-//    return [[UIView alloc] initWithFrame:_tabbedView.contentViewBounds];
-//    return [self showEditView:_tabbedView];
-//    return [self showCMView:_tabbedView];
     UIView *tabView;
     if ([tab.name isEqualToString:@"Editor"]) {
         tabView = [self showEditView:_tabbedView];
-    } else if ([tab.name isEqualToString:@"Videos"]) {
-        tabView = [self showCMView:_tabbedView];
+    } else if ([tab.name isEqualToString:@"Gallery"]) {
+        tabView = [self showGalleryView:_tabbedView];
+    } else if ([tab.name isEqualToString:@"Inventory"]) {
+        tabView = [self showInventoryView:_tabbedView];
     } else {
         tabView = [[UIView alloc] initWithFrame:_tabbedView.contentViewBounds];
     }
@@ -145,13 +111,30 @@
     return tabView;
 }
 
+- (UIView *)showInventoryView:(SEssentialsTabbedView *)_tabbedView
+{
+    UIView *parentView = [[UIView alloc] init];
+    UIButton *addButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    [addButton addTarget:self action:@selector(addNewItem:) forControlEvents:UIControlEventTouchUpInside];
+//    UITableView *tv
+    tv = [[UITableView alloc] initWithFrame:_tabbedView.contentViewBounds style:UITableViewStyleGrouped];
+    UINib *nib = [UINib nibWithNibName:@"HomepwnerItemCell" bundle:nil];
+    [tv registerNib:nib forCellReuseIdentifier:@"HomepwnerItemCell"];
+
+//    ItemsViewController *tvc = [[ItemsViewController alloc] init];
+//    [_tabbedView set]
+//    tvc.view = tv;
+    tv.dataSource = self;
+    tv.delegate = self;
+    [parentView addSubview:tv];
+    [parentView addSubview:addButton];
+//    return tv;
+//    return tvc.view;
+    return parentView;
+}
+
 - (UIView *)showEditView:(SEssentialsTabbedView *)_tabbedView
 {
-    //    UIView *view = [[UIView alloc] initWithFrame:_tabbedView.contentViewBounds];
-    //    [view addSubview:[self SKSceneInTabWithBounds:_tabbedView.contentViewBounds]];
-    //    return view;
-    //    return [self SKSceneInTabWithBounds:_tabbedView.contentViewBounds];
-    
     UIView *parent = [[UIView alloc] initWithFrame:_tabbedView.contentViewBounds];
     
     float width = 309.0f;
@@ -197,44 +180,15 @@
     return parent;
 }
 
-//#import "GTMOAuth2ViewControllerTouch.h"
-//#import "GTL/GTLUtilities.h"
-//#import "GTMOAuth2ViewControllerTouch.h"
-- (UIView *)showCMView:(SEssentialsTabbedView *)_tabbedView
+- (UIView *)showGalleryView:(SEssentialsTabbedView *)_tabbedView
 {
-    // Load the OAuth 2 token from the keychain, if it was previously saved.
-//    NSString *clientID = @"853742039935.apps.googleusercontent.com"; //[_clientIDField stringValue];
-//    NSString *clientSecret = @"1YDFuti-2kJTK0p942sRaQcm"; //[_clientSecretField stringValue];
-//    
-//    GTMOAuth2Authentication *auth =
-//    [GTMOAuth2WindowController authForGoogleFromKeychainForName:kKeychainItemName
-//                                                       clientID:clientID
-//                                                   clientSecret:clientSecret];
-//    self.youTubeService.authorizer = auth;
-//    return nil;
-    
     [self createYouTubeVideoViews];
-//    carousel = [[SEssentialsCarouselLinear2D alloc]
-//    carousel = [[SEssentialsCarouselInverseCylindrical alloc]
     carousel = [[SEssentialsCoverFlow alloc]
                 initWithFrame:_tabbedView.bounds];
     carousel.dataSource = self;
     carousel.delegate = self;
     return carousel;
 }
-
-//-(void)createGalleryVideoViews
-//{
-//    items = [[NSMutableArray alloc] init];
-//    
-//    for (int i = 0; i < 10; i++)
-//    {
-//        //        UILabel *item = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-//        //        item.backgroundColor = [UIColor grayColor];
-//        //        item.text = [NSString stringWithFormat:@"%d", i];
-//        //        item.textAlignment = NSTextAlignmentCenter;
-//
-//}
 
 -(void)createYouTubeVideoViews
 {
@@ -319,5 +273,99 @@
     SEssentialsTab *tab = [[SEssentialsTab alloc] initWithName:tabName icon:nil];
     [tabbedView addTab:tab atIndex:0];
 }
+
+#pragma mark - UITableView data source and delegate stuff
+
+- (void)tableView:(UITableView *)tableView
+moveRowAtIndexPath:(NSIndexPath *)fromIndexPath
+      toIndexPath:(NSIndexPath *)toIndexPath
+{
+    [[BNRItemStore defaultStore] moveItemAtIndex:[fromIndexPath row]
+                                         toIndex:[toIndexPath row]];
+}
+
+- (void)tableView:(UITableView *)aTableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    DetailViewController *detailViewController = [[DetailViewController alloc] initForNewItem:NO];
+    
+    NSArray *items = [[BNRItemStore defaultStore] allItems];
+    BNRItem *selectedItem = [items objectAtIndex:[indexPath row]];
+    
+    // Give detail view controller a pointer to the item object in row
+    [detailViewController setItem:selectedItem];
+    
+    // Push it onto the top of the navigation controller's stack
+    [[self navigationController] pushViewController:detailViewController
+                                           animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView
+commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // If the table view is asking to commit a delete command...
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        BNRItemStore *ps = [BNRItemStore defaultStore];
+        NSArray *items = [ps allItems];
+        BNRItem *p = [items objectAtIndex:[indexPath row]];
+        [ps removeItem:p];
+        
+        // We also remove that row from the table view with an animation
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                         withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section
+{
+    return [[[BNRItemStore defaultStore] allItems] count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    BNRItem *p = [[[BNRItemStore defaultStore] allItems]
+                  objectAtIndex:[indexPath row]];
+    
+    HomepwnerItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HomepwnerItemCell"];
+    
+    [cell setController:self];
+    [cell setTableView:tableView];
+    
+    [[cell nameLabel] setText:[p itemName]];
+    [[cell serialNumberLabel] setText:[p serialNumber]];
+    [[cell valueLabel] setText:[NSString stringWithFormat:@"$%d", [p valueInDollars]]];
+    
+    [[cell thumbnailView] setImage:[p thumbnail]];
+    
+    return cell;
+}
+
+- (IBAction)addNewItem:(id)sender
+{
+    // Create a new BNRItem and add it to the store
+    BNRItem *newItem = [[BNRItemStore defaultStore] createItem];
+    
+    DetailViewController *detailViewController =
+    [[DetailViewController alloc] initForNewItem:YES];
+    
+    [detailViewController setItem:newItem];
+    
+    [detailViewController setDismissBlock:^{
+//        [[self tableView] reloadData];
+//        [tv reloadData];
+    }];
+    
+    UINavigationController *navController = [[UINavigationController alloc]
+                                             initWithRootViewController:detailViewController];
+    
+    [navController setModalPresentationStyle:UIModalPresentationFormSheet];
+    [navController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:navController animated:YES completion:nil];
+}  
 
 @end
