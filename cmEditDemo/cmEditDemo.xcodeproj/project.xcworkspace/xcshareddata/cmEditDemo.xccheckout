@@ -12,6 +12,8 @@
 	<dict>
 		<key>2CB41D8C-1B55-40FB-86D8-3A1BE97E7DA4</key>
 		<string>https://keithmerrill.unfuddle.com/git/keithmerrill_bnr/</string>
+		<key>F3A5BCDB-B0BF-4377-9AE4-45C8DF067E4E</key>
+		<string>http://google-api-objectivec-client.googlecode.com/svn/trunk</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>cmEditDemo/cmEditDemo/cmEditDemo.xcodeproj/project.xcworkspace</string>
@@ -19,6 +21,13 @@
 	<dict>
 		<key>2CB41D8C-1B55-40FB-86D8-3A1BE97E7DA4</key>
 		<string>../../../..</string>
+		<key>F3A5BCDB-B0BF-4377-9AE4-45C8DF067E4E</key>
+		<string>../../../../google-api-objectivec-client/google-api-objectivec-client-read-only</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>F3A5BCDB-B0BF-4377-9AE4-45C8DF067E4E</key>
+		<string>http://google-api-objectivec-client.googlecode.com/svn</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://keithmerrill.unfuddle.com/git/keithmerrill_bnr/</string>
@@ -35,6 +44,20 @@
 			<string>2CB41D8C-1B55-40FB-86D8-3A1BE97E7DA4</string>
 			<key>IDESourceControlWCCName</key>
 			<string>cmEditDemo</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryBranchesRelativeLocationKey</key>
+			<string>branches</string>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlRepositoryTagsRelativeLocationKey</key>
+			<string>tags</string>
+			<key>IDESourceControlRepositoryTrunkRelativeLocationKey</key>
+			<string>trunk</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F3A5BCDB-B0BF-4377-9AE4-45C8DF067E4E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>google-api-objectivec-client-read-only</string>
 		</dict>
 	</array>
 </dict>

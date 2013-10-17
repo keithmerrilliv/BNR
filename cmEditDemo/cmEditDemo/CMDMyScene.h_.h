@@ -1,9 +1,9 @@
 //
 //  CMDMyScene.h
-//  DragDrop
+//  cmEditDemo
 //
 
-//  Copyright (c) 2013 Razeware LLC. All rights reserved.
+//  Copyright (c) 2013 __MyCompanyName__. All rights reserved.
 //
 
 #import <SpriteKit/SpriteKit.h>
