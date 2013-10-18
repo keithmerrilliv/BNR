@@ -15,7 +15,6 @@
 		88198EC5180FC90A003FD227 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88198EAE180FC90A003FD227 /* DetailViewController.m */; };
 		88198EC6180FC90A003FD227 /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88198EAF180FC90A003FD227 /* DetailViewController.xib */; };
 		88198EC9180FC90A003FD227 /* Homepwner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 88198EB4180FC90A003FD227 /* Homepwner.xcdatamodeld */; };
-		88198ECA180FC90A003FD227 /* HomepwnerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 88198EB7180FC90A003FD227 /* HomepwnerAppDelegate.m */; };
 		88198ECB180FC90A003FD227 /* HomepwnerItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 88198EB9180FC90A003FD227 /* HomepwnerItemCell.m */; };
 		88198ECC180FC90A003FD227 /* HomepwnerItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88198EBA180FC90A003FD227 /* HomepwnerItemCell.xib */; };
 		88198ECD180FC90A003FD227 /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88198EBC180FC90A003FD227 /* ImageViewController.m */; };
@@ -79,8 +78,6 @@
 		88198EAE180FC90A003FD227 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		88198EAF180FC90A003FD227 /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 		88198EB5180FC90A003FD227 /* Homepwner.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Homepwner.xcdatamodel; sourceTree = "<group>"; };
-		88198EB6180FC90A003FD227 /* HomepwnerAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomepwnerAppDelegate.h; sourceTree = "<group>"; };
-		88198EB7180FC90A003FD227 /* HomepwnerAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomepwnerAppDelegate.m; sourceTree = "<group>"; };
 		88198EB8180FC90A003FD227 /* HomepwnerItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomepwnerItemCell.h; sourceTree = "<group>"; };
 		88198EB9180FC90A003FD227 /* HomepwnerItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomepwnerItemCell.m; sourceTree = "<group>"; };
 		88198EBA180FC90A003FD227 /* HomepwnerItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomepwnerItemCell.xib; sourceTree = "<group>"; };
@@ -158,7 +155,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		88198EA4180FC90A003FD227 /* Homepwner */ = {
+		88198EA4180FC90A003FD227 /* BNRInventory */ = {
 			isa = PBXGroup;
 			children = (
 				88198EA5180FC90A003FD227 /* AssetTypePicker.h */,
@@ -173,8 +170,6 @@
 				88198EAE180FC90A003FD227 /* DetailViewController.m */,
 				88198EAF180FC90A003FD227 /* DetailViewController.xib */,
 				88198EB4180FC90A003FD227 /* Homepwner.xcdatamodeld */,
-				88198EB6180FC90A003FD227 /* HomepwnerAppDelegate.h */,
-				88198EB7180FC90A003FD227 /* HomepwnerAppDelegate.m */,
 				88198EB8180FC90A003FD227 /* HomepwnerItemCell.h */,
 				88198EB9180FC90A003FD227 /* HomepwnerItemCell.m */,
 				88198EBA180FC90A003FD227 /* HomepwnerItemCell.xib */,
@@ -184,6 +179,7 @@
 				88198EBE180FC90A003FD227 /* ItemsViewController.h */,
 				88198EBF180FC90A003FD227 /* ItemsViewController.m */,
 			);
+			name = BNRInventory;
 			path = Homepwner;
 			sourceTree = "<group>";
 		};
@@ -226,16 +222,16 @@
 		88307EA5180BB7A90060F785 /* cmEditDemo */ = {
 			isa = PBXGroup;
 			children = (
-				88198EA4180FC90A003FD227 /* Homepwner */,
-				88307EE2180BD0C00060F785 /* DragDropImages */,
 				88307EAE180BB7A90060F785 /* CMDAppDelegate.h */,
 				88307EAF180BB7A90060F785 /* CMDAppDelegate.m */,
-				88307EB1180BB7A90060F785 /* Main.storyboard */,
-				88307EB4180BB7A90060F785 /* CMDViewController.h */,
-				88307EB5180BB7A90060F785 /* CMDViewController.m */,
 				88307EB7180BB7A90060F785 /* CMDEditorScene.h */,
 				88307EB8180BB7A90060F785 /* CMDEditorScene.m */,
+				88307EB4180BB7A90060F785 /* CMDViewController.h */,
+				88307EB5180BB7A90060F785 /* CMDViewController.m */,
+				88307EE2180BD0C00060F785 /* EditorAssets */,
+				88198EA4180FC90A003FD227 /* BNRInventory */,
 				88307EBC180BB7A90060F785 /* Images.xcassets */,
+				88307EB1180BB7A90060F785 /* Main.storyboard */,
 				88307EA6180BB7A90060F785 /* Supporting Files */,
 			);
 			path = cmEditDemo;
@@ -270,7 +266,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		88307EE2180BD0C00060F785 /* DragDropImages */ = {
+		88307EE2180BD0C00060F785 /* EditorAssets */ = {
 			isa = PBXGroup;
 			children = (
 				88E458901810E29B00EFD8CB /* catAdBanner.png */,
@@ -285,6 +281,7 @@
 				8864C47618103B3000908E1C /* spaceBkGrnd.png */,
 				8864C48218104ABE00908E1C /* spaceBkGrnd2.png */,
 			);
+			name = EditorAssets;
 			path = DragDropImages;
 			sourceTree = "<group>";
 		};
@@ -404,7 +401,6 @@
 				88198EC1180FC90A003FD227 /* AssetTypePicker.m in Sources */,
 				88198ECB180FC90A003FD227 /* HomepwnerItemCell.m in Sources */,
 				88198EC5180FC90A003FD227 /* DetailViewController.m in Sources */,
-				88198ECA180FC90A003FD227 /* HomepwnerAppDelegate.m in Sources */,
 				88198ECD180FC90A003FD227 /* ImageViewController.m in Sources */,
 				88198EC2180FC90A003FD227 /* BNRImageStore.m in Sources */,
 				88307EB0180BB7A90060F785 /* CMDAppDelegate.m in Sources */,
