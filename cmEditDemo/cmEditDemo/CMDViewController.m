@@ -93,11 +93,14 @@
 - (UIView *)showEditorView:(SEssentialsTabbedView *)_tabbedView
 {
     SKView *skView = [[SKView alloc] initWithFrame:_tabbedView.contentViewBounds];
-    skView.showsFPS = YES;
-    skView.showsNodeCount = YES;
+//    skView.showsFPS = YES;
+//    skView.showsNodeCount = YES;
     
-    SKScene *scene = [CMDEditorScene sceneWithSize:skView.bounds.size];
+    CMDEditorScene *scene = [CMDEditorScene sceneWithSize:skView.bounds.size];
     scene.scaleMode = SKSceneScaleModeAspectFill;
+    scene.vcparent = self;
+    [scene setupPrefabEditorAssets];
+
     [skView presentScene:scene];
     
     UIView *parent = [[UIView alloc] initWithFrame:_tabbedView.contentViewBounds];
@@ -152,10 +155,11 @@
 {
     UIWebView *wv = [[UIWebView alloc] init];
 
-    float width = 185.4f;
-    float height = 117.6f;
+    float width = 220.0f;
+    float height = 142.0f;
+    float yOffset = -35.0f;
     float x = size.width / 2.0f - width / 2.0f;
-    float y = size.height / 2.0f - height / 2.0f;
+    float y = (size.height / 2.0f - height / 2.0f) + yOffset;
     wv.frame = CGRectMake(x, y, width, height);
     
     NSString *youTubeURL = @"http://www.youtube.com/embed/9SEaSW1jtnQ";

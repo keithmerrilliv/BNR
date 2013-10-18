@@ -16,16 +16,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "cmEditDemo/CMDEditorScene.m"
-            timestampString = "403765353.4503"
+            filePath = "cmEditDemo/Homepwner/ItemsViewController.m"
+            timestampString = "403778897.433166"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
-            landmarkName = "-selectNodeForPan:"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "-addNewItem:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,13 +35,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "cmEditDemo/Homepwner/ItemsViewController.m"
-            timestampString = "403778196.579882"
+            filePath = "cmEditDemo/CMDEditorScene.m"
+            timestampString = "403783418.820824"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
-            landmarkName = "-addNewItem:"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
+            landmarkName = "-setupPrefabEditorAssets"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -52,6 +52,7 @@
 		88E4588A1810E19600EFD8CB /* FBLogo2.png in Resources */ = {isa = PBXBuildFile; fileRef = 88E4587E1810E19600EFD8CB /* FBLogo2.png */; };
 		88E458921810E29B00EFD8CB /* catAdBanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 88E458901810E29B00EFD8CB /* catAdBanner.png */; };
 		88E458931810E29B00EFD8CB /* catAdBanner3.png in Resources */ = {isa = PBXBuildFile; fileRef = 88E458911810E29B00EFD8CB /* catAdBanner3.png */; };
+		88E45895181137BD00EFD8CB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88E45894181137BD00EFD8CB /* Social.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +124,7 @@
 		88E4587E1810E19600EFD8CB /* FBLogo2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FBLogo2.png; sourceTree = "<group>"; };
 		88E458901810E29B00EFD8CB /* catAdBanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = catAdBanner.png; sourceTree = "<group>"; };
 		88E458911810E29B00EFD8CB /* catAdBanner3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = catAdBanner3.png; sourceTree = "<group>"; };
+		88E45894181137BD00EFD8CB /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88E45895181137BD00EFD8CB /* Social.framework in Frameworks */,
 				88198EA1180FC858003FD227 /* CoreData.framework in Frameworks */,
 				88307EE0180BB9DC0060F785 /* ShinobiEssentials.bundle in Frameworks */,
 				88307EDE180BB9AB0060F785 /* ShinobiEssentials.framework in Frameworks */,
@@ -205,6 +208,7 @@
 		88307E9C180BB7A90060F785 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				88E45894181137BD00EFD8CB /* Social.framework */,
 				88198EA0180FC858003FD227 /* CoreData.framework */,
 				88307E9F180BB7A90060F785 /* CoreGraphics.framework */,
 				88307E9D180BB7A90060F785 /* Foundation.framework */,

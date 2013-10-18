@@ -8,6 +8,8 @@
 
 #import "CMDEditorScene.h"
 
+#import <Social/Social.h>
+
 @interface CMDEditorScene () 
  
 @property (nonatomic, strong) SKSpriteNode *background;
@@ -24,15 +26,12 @@ static NSString * const kMoveableVideoTypeTag = @"moveableVideo";
 - (id)initWithSize:(CGSize)size
 {
     if (self = [super initWithSize:size]) {
- 
         _background = [SKSpriteNode spriteNodeWithImageNamed:@"spaceBkGrnd"];
         [_background setName:@"background"];
         [_background setAnchorPoint:CGPointZero];
         [self addChild:_background];
- 
-        [self setupPrefabEditorAssets];
     }
- 
+    
     return self;
 }
 
@@ -129,27 +128,24 @@ float degToRad(float degree)
     // setup content title (and logo)
     SKSpriteNode *titleLogo = [SKSpriteNode spriteNodeWithImageNamed:@"catLogo"];
     [titleLogo setName:kMoveableNodeTypeTag];
-    [titleLogo setPosition:CGPointMake(50.0f, 50.0f)];
-//    [_background setAnchorPoint:CGPointZero];
+    [titleLogo setPosition:CGPointMake(titleLogo.frame.size.width / 2.0f - 10.0f, 210.0f)];
     [_background addChild:titleLogo];
     
     // setup ad video
     SKVideoNode *adVideo = [SKVideoNode videoNodeWithVideoFileNamed:@"IMG_0007.MOV"];
     [adVideo setName:kMoveableVideoTypeTag];
     adVideo.size = CGSizeMake(80.0f, 60.0f);
-    [adVideo setPosition:CGPointMake(60.0f, 60.0f)];
+    [adVideo setPosition:CGPointMake(self.frame.size.width - adVideo.frame.size.width / 2.0f, 225.0f)];
     [_background addChild:adVideo];
     
     // setup banner ads
     SKSpriteNode *banner = [SKSpriteNode spriteNodeWithImageNamed:@"catAdBanner3"];
     [banner setName:kMoveableNodeTypeTag];
-    [banner setPosition:CGPointMake(70.0f, 70.0f)];
-//    [_background setAnchorPoint:CGPointZero];
+    [banner setPosition:CGPointMake(banner.frame.size.width / 2.0f, banner.frame.size.height / 2.0f)];
     [_background addChild:banner];
     banner = [SKSpriteNode spriteNodeWithImageNamed:@"catAdBanner"];
     [banner setName:kMoveableNodeTypeTag];
-    [banner setPosition:CGPointMake(70.0f, 70.0f)];
-    [_background setAnchorPoint:CGPointZero];
+    [banner setPosition:CGPointMake(self.frame.size.width - banner.frame.size.width / 2.0f, banner.frame.size.height / 2.0f)];
     [_background addChild:banner];
     
     // setup content info blurb
@@ -157,15 +153,28 @@ float degToRad(float degree)
     SKLabelNode *blurb = [SKLabelNode labelNodeWithFontNamed:@"Courier"];
     [blurb setName:kMoveableNodeTypeTag];
     blurb.text = blurbCopyText;
-    blurb.fontSize = 12;
+    blurb.fontSize = 14;
     blurb.position = CGPointMake(CGRectGetMidX(self.frame),
-                                 CGRectGetMidY(self.frame));
+                                 CGRectGetMidY(self.frame) - 50.0f);
     blurb.fontColor = [UIColor whiteColor];
-    [blurb setPosition:CGPointMake(150.0f, 150.0f)];
     [_background addChild:blurb];
     
     // setup social sharing buttons
-    //##
+//    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
+//        SLComposeViewController *tweetSheet = [SLComposeViewController
+//                                               composeViewControllerForServiceType:SLServiceTypeTwitter];
+//        NSString *tweetText = [NSString stringWithFormat:@"Holy crap! The Cat from Outer Space is an awesome flick! You should see it http://www.imdb.com/title/tt0077305"];
+//        [tweetSheet setInitialText:tweetText];
+//        [self.vcparent presentViewController:tweetSheet animated:YES completion:nil];
+//    }
+
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+        SLComposeViewController *fbCompVC = [SLComposeViewController
+                                               composeViewControllerForServiceType:SLServiceTypeFacebook];
+        NSString *postText = [NSString stringWithFormat:@"Holy crap! The Cat from Outer Space is an awesome flick! You should see it http://www.imdb.com/title/tt0077305"];
+        [fbCompVC setInitialText:postText];
+        [self.vcparent presentViewController:fbCompVC animated:YES completion:nil];
+    }
 }
 
 @end
