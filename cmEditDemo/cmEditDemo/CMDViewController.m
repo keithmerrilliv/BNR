@@ -51,11 +51,7 @@
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return UIInterfaceOrientationMaskAllButUpsideDown;
-    } else {
-        return UIInterfaceOrientationMaskAll;
-    }
+    return UIInterfaceOrientationMaskLandscape;
 }
 
 - (void)showTabbedView
@@ -70,19 +66,10 @@
     tabbedView.editable = NO;
 }
 
-- (UIView *)SKSceneInTabWithBounds:(CGRect)bounds
+- (void)setupTabCalled:(NSString*)tabName
 {
-    SKView *skView = (SKView *)self.view;
-    skView.showsFPS = YES;
-    skView.showsNodeCount = YES;
-
-//## suspect size
-    CGSize size = CGSizeMake(10.0f, 10.0f);
-    SKScene *scene = [CMDEditorScene sceneWithSize:size];
-    scene.scaleMode = SKSceneScaleModeAspectFill;
-    [skView presentScene:scene];
-    
-    return skView;
+    SEssentialsTab *tab = [[SEssentialsTab alloc] initWithName:tabName icon:nil];
+    [tabbedView addTab:tab atIndex:0];
 }
 
 #pragma mark - SEssentialsTabbedViewDataSource methods
@@ -133,10 +120,16 @@
 
 - (UIView *)showInventoryView:(SEssentialsTabbedView *)_tabbedView
 {
-    UIButton *addButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+    CGRect frame = CGRectMake(10.0f, 0.0f, 40.0f, 40.0f);
+    UIButton *addButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [addButton setTitle:@"Add" forState:UIControlStateNormal];
+    addButton.frame = frame;
     [addButton addTarget:self action:@selector(addNewItem:) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *editButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *editButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [editButton setTitle:@"Edit" forState:UIControlStateNormal];
+    frame.origin.x += addButton.bounds.size.width + 10.0f;
+    editButton.frame = frame;
     [editButton addTarget:self action:@selector(editItems:) forControlEvents:UIControlEventTouchUpInside];
     
     inventoryTable = [[UITableView alloc] initWithFrame:_tabbedView.contentViewBounds style:UITableViewStyleGrouped];
@@ -148,6 +141,7 @@
     UIView *parentView = [[UIView alloc] init];
     [parentView addSubview:inventoryTable];
     [parentView addSubview:addButton];
+    [parentView addSubview:editButton];
     
     return parentView;
 }
@@ -207,20 +201,20 @@
         
         NSString *youTubeIframeAndEndTag;
         switch (i) {
-            case 1:
-                youTubeIframeAndEndTag = [NSString stringWithFormat:@"%@<iframe class=\"youtube-player\" type=\"text/html\" width=\"%f\" height=\"%f\" src=\"http://www.youtube.com/embed/Gyf1kjaUZCo?autoplay=1\" allowfullscreen frameborder=\"0\"></iframe></body></html>", htmlBase, width, height];
+            case 0:
+                youTubeIframeAndEndTag = [NSString stringWithFormat:@"%@<iframe class=\"youtube-player\" type=\"text/html\" width=\"%f\" height=\"%f\" src=\"http://www.youtube.com/embed/fUIokQ36rbA?autoplay=1\" allowfullscreen frameborder=\"0\"></iframe></body></html>", htmlBase, width, height];
                 break;
-            case 2:
+            case 1:
                 youTubeIframeAndEndTag = [NSString stringWithFormat:@"%@<iframe class=\"youtube-player\" type=\"text/html\" width=\"%f\" height=\"%f\" src=\"http://www.youtube.com/embed/jEruuqRq50g?autoplay=1\" allowfullscreen frameborder=\"0\"></iframe></body></html>", htmlBase, width, height];
                 break;
-            case 3:
+            case 2:
                 youTubeIframeAndEndTag = [NSString stringWithFormat:@"%@<iframe class=\"youtube-player\" type=\"text/html\" width=\"%f\" height=\"%f\" src=\"http://www.youtube.com/embed/O9XtK6R1QAk?autoplay=1\" allowfullscreen frameborder=\"0\"></iframe></body></html>", htmlBase, width, height];
                 break;
-            case 4:
+            case 3:
                 youTubeIframeAndEndTag = [NSString stringWithFormat:@"%@<iframe class=\"youtube-player\" type=\"text/html\" width=\"%f\" height=\"%f\" src=\"http://www.youtube.com/embed/9DnQLI1XDzI?autoplay=1\" allowfullscreen frameborder=\"0\"></iframe></body></html>", htmlBase, width, height];
                 break;
-            case 5:
-                youTubeIframeAndEndTag = [NSString stringWithFormat:@"%@<iframe class=\"youtube-player\" type=\"text/html\" width=\"%f\" height=\"%f\" src=\"http://www.youtube.com/embed/fUIokQ36rbA?autoplay=1\" allowfullscreen frameborder=\"0\"></iframe></body></html>", htmlBase, width, height];
+            case 4:
+                youTubeIframeAndEndTag = [NSString stringWithFormat:@"%@<iframe class=\"youtube-player\" type=\"text/html\" width=\"%f\" height=\"%f\" src=\"http://www.youtube.com/embed/Gyf1kjaUZCo?autoplay=1\" allowfullscreen frameborder=\"0\"></iframe></body></html>", htmlBase, width, height];
                 break;
         }
         [wv loadHTMLString:youTubeIframeAndEndTag baseURL:nil];
@@ -229,7 +223,7 @@
     }
 }
 
-#pragma mark - SEssentialsCarouselDataSource methods
+#pragma mark - SEssentialsCarouselDataSource methods for gallery tab
 
 - (NSUInteger)numberOfItemsInCarousel:(SEssentialsCarousel *)carousel
 {
@@ -241,7 +235,7 @@
     return [inventoryItems objectAtIndex:index];
 }
 
-#pragma mark - SEssentialsCarouselDelegate methods
+#pragma mark - SEssentialsCarouselDelegate methods for gallery tab
 
 -(void)carousel:(SEssentialsCarousel*)carousel_ didTapItem:(UIView*)item atOffset:(CGFloat)offset
 {
@@ -249,15 +243,7 @@
     // currently not working with MOV videos so using YouTube videos instead
 }
 
-#pragma mark - Utility methods
-
-- (void)setupTabCalled:(NSString*)tabName
-{
-    SEssentialsTab *tab = [[SEssentialsTab alloc] initWithName:tabName icon:nil];
-    [tabbedView addTab:tab atIndex:0];
-}
-
-#pragma mark - UITableViewDataSource
+#pragma mark - UITableViewDataSource and UITableViewDelegate methods for inventory tab
 
 - (void)tableView:(UITableView *)tableView
 moveRowAtIndexPath:(NSIndexPath *)fromIndexPath
@@ -288,8 +274,7 @@ commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
 forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // If the table view is asking to commit a delete command...
-    if (editingStyle == UITableViewCellEditingStyleDelete)
-    {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
         BNRItemStore *ps = [BNRItemStore defaultStore];
         NSArray *items = [ps allItems];
         BNRItem *p = [items objectAtIndex:[indexPath row]];
@@ -327,6 +312,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     return cell;
 }
 
+#pragma mark - IBAction mappings for inventory tab
+
 - (IBAction)addNewItem:(id)sender
 {
     // Create a new BNRItem and add it to the store
@@ -338,8 +325,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     [detailViewController setItem:newItem];
     
     [detailViewController setDismissBlock:^{
-//        [[self tableView] reloadData];
-//        [tv reloadData];
+        // @todo ensure that calling this doesn't cause some reload view cascade that resets tabbedView
+        [inventoryTable reloadData];
     }];
     
     UINavigationController *navController = [[UINavigationController alloc]
@@ -350,5 +337,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     
     [self presentViewController:navController animated:YES completion:nil];
 }  
+
+- (IBAction)editItems:(id)sender
+{
+    [inventoryTable setEditing:YES animated:NO];
+}
 
 @end
