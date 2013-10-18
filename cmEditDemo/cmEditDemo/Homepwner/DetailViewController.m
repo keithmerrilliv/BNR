@@ -100,25 +100,28 @@
         [imageView setImage:nil];
     }
     NSString *typeLabel = [[item assetType] valueForKey:@"label"];
-    if(!typeLabel)
+    if (!typeLabel)
         typeLabel = @"None";
     [assetTypeButton setTitle:[NSString stringWithFormat:@"Type: %@", typeLabel]
                      forState:UIControlStateNormal];
 }
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)io
+
+- (BOOL)shouldAutorotate
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        return YES;
-    } else {
-        return (io == UIInterfaceOrientationPortrait);
-    } 
+    return YES;
 }
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskLandscape;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
     UIColor *clr = nil;  
-    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         clr = [UIColor colorWithRed:0.875 green:0.88 blue:0.91 alpha:1];
     } else {
         clr = [UIColor groupTableViewBackgroundColor];
@@ -147,7 +150,10 @@
 
 - (IBAction)takePicture:(id)sender 
 {
-    if([imagePickerPopover isPopoverVisible]) {
+    // @todo resolve the portrait orientation issue which seems required for the camera and photo gallery Apps
+    return;
+    
+    if ([imagePickerPopover isPopoverVisible]) {
         [imagePickerPopover dismissPopoverAnimated:YES];
         imagePickerPopover = nil;
         return;
@@ -204,7 +210,8 @@
     NSLog(@"%@", [self presentingViewController]);
 }
 
-- (IBAction)showAssetTypePicker:(id)sender {
+- (IBAction)showAssetTypePicker:(id)sender
+{
     [[self view] endEditing:YES];
     
     AssetTypePicker *assetTypePicker = [[AssetTypePicker alloc] init];
@@ -244,7 +251,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
     // Put that image onto the screen in our image view
     [imageView setImage:image];
 
-    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         // If on the phone, the image picker is presented modally. Dismiss it.
         [self dismissViewControllerAnimated:YES completion:nil];
     } else {    
@@ -252,7 +259,6 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info
         [imagePickerPopover dismissPopoverAnimated:YES];
         imagePickerPopover = nil;
     }
-
 }
 
 @end

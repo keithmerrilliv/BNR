@@ -10,10 +10,9 @@
 #import "BNRItemStore.h"
 #import "BNRItem.h"
 #import "HomepwnerItemCell.h"
-// new 
 #import "BNRImageStore.h"
 #import "ImageViewController.h"
-//
+
 @implementation ItemsViewController
 
 - (id)init 
@@ -21,32 +20,19 @@
     // Call the superclass's designated initializer
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
-        UINavigationItem *n = [self navigationItem];
-        
-        [n setTitle:@"Homepwner"];
-
-        // Create a new bar button item that will send
-        // addNewItem: to ItemsViewController
-        UIBarButtonItem *bbi = [[UIBarButtonItem alloc] 
-                        initWithBarButtonSystemItem:UIBarButtonSystemItemAdd 
-                                             target:self 
-                                             action:@selector(addNewItem:)];
-
-        // Set this bar button item as the right item in the navigationItem
-        [[self navigationItem] setRightBarButtonItem:bbi];
-
-        [[self navigationItem] setLeftBarButtonItem:[self editButtonItem]];
-//        self.view = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 50, 50) style:UITableViewStyleGrouped];
     }
+    
     return self;
 }
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)io
+
+- (BOOL)shouldAutorotate
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        return YES;
-    } else {
-        return (io == UIInterfaceOrientationPortrait);
-    } 
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskLandscape;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -60,7 +46,6 @@
     [super viewDidLoad];
     
     UINib *nib = [UINib nibWithNibName:@"HomepwnerItemCell" bundle:nil];
-    
     [[self tableView] registerNib:nib forCellReuseIdentifier:@"HomepwnerItemCell"];
 }
 
@@ -85,7 +70,8 @@
     [navController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
     
     [self presentViewController:navController animated:YES completion:nil];
-}  
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     return [self init];
@@ -159,7 +145,6 @@
     return cell;
 }
 
-// New
 - (void)showImage:(id)sender atIndexPath:(NSIndexPath *)ip 
 {
     NSLog(@"Going to show the image for %@", ip);
@@ -171,8 +156,9 @@
 
     // If there is no image, we don't need to display anything
     UIImage *img = [[BNRImageStore defaultImageStore] imageForKey:imageKey];
-    if(!img)
+    if (!img) {
         return;
+    }
     
     // Make a rectangle that the frame of the button relative to 
     // our table view
@@ -191,9 +177,11 @@
                 permittedArrowDirections:UIPopoverArrowDirectionAny 
                                 animated:YES];
 }
+
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
     [imagePopover dismissPopoverAnimated:YES];
     imagePopover = nil;
 }
+
 @end

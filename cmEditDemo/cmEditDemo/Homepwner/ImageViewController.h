@@ -13,5 +13,7 @@
     __weak IBOutlet UIImageView *imageView;
     __weak IBOutlet UIScrollView *scrollView;
 }
+
 @property (nonatomic, strong) UIImage *image;
+
 @end

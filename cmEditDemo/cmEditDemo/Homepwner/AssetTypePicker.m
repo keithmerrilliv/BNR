@@ -17,6 +17,7 @@
 {
     return [super initWithStyle:UITableViewStyleGrouped];
 }
+
 - (id)initWithStyle:(UITableViewStyle)style 
 {
     return [self init];
@@ -69,4 +70,5 @@ didSelectRowAtIndexPath:(NSIndexPath *)ip
     
     [[self navigationController] popViewControllerAnimated:YES];
 }
+
 @end

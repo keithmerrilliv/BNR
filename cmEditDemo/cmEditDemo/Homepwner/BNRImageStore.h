@@ -12,6 +12,7 @@
 {
     NSMutableDictionary *dictionary;
 }
+
 + (BNRImageStore *)defaultImageStore;
 
 - (void)setImage:(UIImage *)i forKey:(NSString *)s;

@@ -28,8 +28,8 @@
 
 - (BNRItem *)createItem;
 
-- (void)moveItemAtIndex:(int)from
-                toIndex:(int)to;
+- (void)moveItemAtIndex:(NSInteger)from
+                toIndex:(NSInteger)to;
 
 - (NSString *)itemArchivePath;
 

@@ -64,7 +64,6 @@
     return self;
 }
 
-
 - (void)loadAllItems 
 {
     if (!allItems) {
@@ -124,8 +123,8 @@
     return allItems;
 }
 
-- (void)moveItemAtIndex:(int)from
-                toIndex:(int)to
+- (void)moveItemAtIndex:(NSInteger)from
+                toIndex:(NSInteger)to
 {
     if (from == to) {
         return;
@@ -139,7 +138,7 @@
     // Insert p in array at new location
     [allItems insertObject:p atIndex:to];
 
-// Computing a new orderValue for the object that was moved
+    // Computing a new orderValue for the object that was moved
     double lowerBound = 0.0;
 
     // Is there an object before it in the array?
@@ -172,7 +171,7 @@
     } else {
         order = [[allItems lastObject] orderingValue] + 1.0;
     }
-    NSLog(@"Adding after %d items, order = %.2f", [allItems count], order);
+    NSLog(@"Adding after %lu items, order = %.2f", (unsigned long)[allItems count], order);
 
     BNRItem *p = [NSEntityDescription insertNewObjectForEntityForName:@"BNRItem"
                                                 inManagedObjectContext:context];
@@ -221,8 +220,8 @@
                                              inManagedObjectContext:context];
         [type setValue:@"Electronics" forKey:@"label"];
         [allAssetTypes addObject:type];
-
     }
+    
     return allAssetTypes;
 }
 

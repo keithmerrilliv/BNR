@@ -9,6 +9,7 @@
 #import "BNRImageStore.h"
 
 @implementation BNRImageStore
+
 + (id)allocWithZone:(NSZone *)zone
 {
     return [self defaultImageStore];
@@ -24,7 +25,8 @@
     return defaultImageStore;
 }
 
-- (id)init {
+- (id)init
+{
     self = [super init];
     if (self) {
         dictionary = [[NSMutableDictionary alloc] init];
@@ -33,15 +35,16 @@
                selector:@selector(clearCache:) 
                    name:UIApplicationDidReceiveMemoryWarningNotification 
                  object:nil];
-
     }
     return self;
 }
+
 - (void)clearCache:(NSNotification *)note
 {
-    NSLog(@"flushing %d images out of the cache", [dictionary count]);
+    NSLog(@"flushing %lul images out of the cache", (unsigned long)[dictionary count]);
     [dictionary removeAllObjects];
 }
+
 - (void)setImage:(UIImage *)i forKey:(NSString *)s
 {
     [dictionary setObject:i forKey:s];
@@ -54,6 +57,7 @@
     // Write it to full path
     [d writeToFile:imagePath atomically:YES];
 }
+
 - (UIImage *)imageForKey:(NSString *)s
 {
     // If possible, get it from the dictionary
@@ -71,6 +75,7 @@
     }
     return result;
 }
+
 - (void)deleteImageForKey:(NSString *)s
 {
     if(!s)
@@ -80,6 +85,7 @@
     [[NSFileManager defaultManager] removeItemAtPath:path
                                                error:NULL];
 }
+
 - (NSString *)imagePathForKey:(NSString *)key
 {
     NSArray *documentDirectories =
@@ -91,4 +97,5 @@
     
     return [documentDirectory stringByAppendingPathComponent:key];
 }
+
 @end
