@@ -39,7 +39,6 @@
 		88307EDA180BB9660060F785 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88307ED9180BB9660060F785 /* Security.framework */; };
 		88307EDC180BB9750060F785 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88307EDB180BB9750060F785 /* QuartzCore.framework */; };
 		88307EDE180BB9AB0060F785 /* ShinobiEssentials.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88307EDD180BB9AB0060F785 /* ShinobiEssentials.framework */; };
-		88307EE0180BB9DC0060F785 /* ShinobiEssentials.bundle in Frameworks */ = {isa = PBXBuildFile; fileRef = 88307EDF180BB9DC0060F785 /* ShinobiEssentials.bundle */; };
 		88307EE1180BC0190060F785 /* ShinobiEssentials.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 88307EDF180BB9DC0060F785 /* ShinobiEssentials.bundle */; };
 		885332ED1811913200B76366 /* catAdBanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 885332E41811913200B76366 /* catAdBanner.png */; };
 		885332EE1811913200B76366 /* catAdBanner3.png in Resources */ = {isa = PBXBuildFile; fileRef = 885332E51811913200B76366 /* catAdBanner3.png */; };
@@ -108,7 +107,7 @@
 		88307ED9180BB9660060F785 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		88307EDB180BB9750060F785 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		88307EDD180BB9AB0060F785 /* ShinobiEssentials.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShinobiEssentials.framework; path = ../../../Desktop/ShinobiEssentials/ShinobiEssentials.framework; sourceTree = "<group>"; };
-		88307EDF180BB9DC0060F785 /* ShinobiEssentials.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ShinobiEssentials.bundle; path = ../../../Desktop/ShinobiEssentials/ShinobiEssentials.bundle; sourceTree = "<group>"; };
+		88307EDF180BB9DC0060F785 /* ShinobiEssentials.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = ShinobiEssentials.bundle; path = ../../../../Desktop/ShinobiEssentials/ShinobiEssentials.bundle; sourceTree = "<group>"; };
 		885332E41811913200B76366 /* catAdBanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = catAdBanner.png; sourceTree = "<group>"; };
 		885332E51811913200B76366 /* catAdBanner3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = catAdBanner3.png; sourceTree = "<group>"; };
 		885332E61811913200B76366 /* catLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = catLogo.png; sourceTree = "<group>"; };
@@ -126,7 +125,6 @@
 			files = (
 				88E45895181137BD00EFD8CB /* Social.framework in Frameworks */,
 				88198EA1180FC858003FD227 /* CoreData.framework in Frameworks */,
-				88307EE0180BB9DC0060F785 /* ShinobiEssentials.bundle in Frameworks */,
 				88307EDE180BB9AB0060F785 /* ShinobiEssentials.framework in Frameworks */,
 				88307EDC180BB9750060F785 /* QuartzCore.framework in Frameworks */,
 				88307EDA180BB9660060F785 /* Security.framework in Frameworks */,
@@ -206,7 +204,6 @@
 				88307E9D180BB7A90060F785 /* Foundation.framework */,
 				88307EDB180BB9750060F785 /* QuartzCore.framework */,
 				88307ED9180BB9660060F785 /* Security.framework */,
-				88307EDF180BB9DC0060F785 /* ShinobiEssentials.bundle */,
 				88307EDD180BB9AB0060F785 /* ShinobiEssentials.framework */,
 				88307EA3180BB7A90060F785 /* SpriteKit.framework */,
 				88307EA1180BB7A90060F785 /* UIKit.framework */,
@@ -236,6 +233,7 @@
 		88307EA6180BB7A90060F785 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				88307EDF180BB9DC0060F785 /* ShinobiEssentials.bundle */,
 				88307EA7180BB7A90060F785 /* cmEditDemo-Info.plist */,
 				88307EA8180BB7A90060F785 /* InfoPlist.strings */,
 				88307EAB180BB7A90060F785 /* main.m */,
