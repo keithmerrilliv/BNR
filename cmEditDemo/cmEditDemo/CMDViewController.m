@@ -9,7 +9,7 @@
 #import <ShinobiEssentials/SEssentials.h>
 
 #import "CMDViewController.h"
-#import "CMDMyScene.h"
+#import "CMDEditorScene.h"
 #import "ItemsViewController.h"
 #import "BNRItem.h"
 #import "BNRItemStore.h"
@@ -18,9 +18,9 @@
 @interface CMDViewController ()
 {
     SEssentialsTabbedView *tabbedView;
-    SEssentialsCoverFlow *carousel;
-    NSMutableArray *items;
-    UITableView *tv;
+    SEssentialsCoverFlow *galleryCarousel;
+    UITableView *inventoryTable;
+    NSMutableArray *inventoryItems;
 }
 @end
 
@@ -38,33 +38,10 @@
     [tabbedView activateTabDisplayedAtIndex:0];
 }
 
-- (UIView *)SKSceneInTabWithBounds:(CGRect)bounds
+- (void)didReceiveMemoryWarning
 {
-    SKView *skView = (SKView *)self.view;
-    skView.showsFPS = YES;
-    skView.showsNodeCount = YES;
-
-    // Create and configure the scene.
-    CGSize size = CGSizeMake(10.0f, 10.0f);
-//    SKScene *scene = [CMDMyScene sceneWithSize:bounds.size];
-    SKScene *scene = [CMDMyScene sceneWithSize:size];
-    scene.scaleMode = SKSceneScaleModeAspectFill;
-    // Present the scene.
-    [skView presentScene:scene];
-    
-    return skView;
-}
-
-- (void)showTabbedView
-{
-    tabbedView = [[SEssentialsTabbedView alloc] initWithFrame:self.view.bounds];
-    [self setupTabCalled:@"Inventory"];
-    [self setupTabCalled:@"Gallery"];
-    [self setupTabCalled:@"Editor"];
-    [self.view addSubview:tabbedView];
-    
-    tabbedView.dataSource = self;
-    tabbedView.editable = NO;
+    [super didReceiveMemoryWarning];
+    // Release any cached data, images, etc that aren't in use.
 }
 
 - (BOOL)shouldAutorotate
@@ -81,25 +58,40 @@
     }
 }
 
-- (void)didReceiveMemoryWarning
+- (void)showTabbedView
 {
-    [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
+    tabbedView = [[SEssentialsTabbedView alloc] initWithFrame:self.view.bounds];
+    [self setupTabCalled:@"Inventory"];
+    [self setupTabCalled:@"Gallery"];
+    [self setupTabCalled:@"Editor"];
+    [self.view addSubview:tabbedView];
+    
+    tabbedView.dataSource = self;
+    tabbedView.editable = NO;
+}
+
+- (UIView *)SKSceneInTabWithBounds:(CGRect)bounds
+{
+    SKView *skView = (SKView *)self.view;
+    skView.showsFPS = YES;
+    skView.showsNodeCount = YES;
+
+//## suspect size
+    CGSize size = CGSizeMake(10.0f, 10.0f);
+    SKScene *scene = [CMDEditorScene sceneWithSize:size];
+    scene.scaleMode = SKSceneScaleModeAspectFill;
+    [skView presentScene:scene];
+    
+    return skView;
 }
 
 #pragma mark - SEssentialsTabbedViewDataSource methods
-
-- (SEssentialsTab *)tabForTabbedView:(SEssentialsTabbedView *)tabbedView
-{
-    SEssentialsTab *tab = [[SEssentialsTab alloc] initWithName:@"New Tab" icon:nil];
-    return tab;
-}
 
 - (UIView *)tabbedView:(SEssentialsTabbedView *)_tabbedView contentForTab:(SEssentialsTab *)tab
 {
     UIView *tabView;
     if ([tab.name isEqualToString:@"Editor"]) {
-        tabView = [self showEditView:_tabbedView];
+        tabView = [self showEditorView:_tabbedView];
     } else if ([tab.name isEqualToString:@"Gallery"]) {
         tabView = [self showGalleryView:_tabbedView];
     } else if ([tab.name isEqualToString:@"Inventory"]) {
@@ -111,43 +103,68 @@
     return tabView;
 }
 
+- (UIView *)showEditorView:(SEssentialsTabbedView *)_tabbedView
+{
+    SKView *skView = [[SKView alloc] initWithFrame:_tabbedView.contentViewBounds];
+    skView.showsFPS = YES;
+    skView.showsNodeCount = YES;
+    
+    SKScene *scene = [CMDEditorScene sceneWithSize:skView.bounds.size];
+    scene.scaleMode = SKSceneScaleModeAspectFill;
+    [skView presentScene:scene];
+    
+    UIView *parent = [[UIView alloc] initWithFrame:_tabbedView.contentViewBounds];
+    [parent addSubview:skView];
+    [parent addSubview:[self createYouTubeEditorVideo:_tabbedView.contentViewBounds.size]];
+    
+    return parent;
+}
+
+- (UIView *)showGalleryView:(SEssentialsTabbedView *)_tabbedView
+{
+    [self createYouTubeInventoryVideos];
+    galleryCarousel = [[SEssentialsCoverFlow alloc]
+                       initWithFrame:_tabbedView.bounds];
+    galleryCarousel.dataSource = self;
+    galleryCarousel.delegate = self;
+    
+    return galleryCarousel;
+}
+
 - (UIView *)showInventoryView:(SEssentialsTabbedView *)_tabbedView
 {
-    UIView *parentView = [[UIView alloc] init];
     UIButton *addButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
     [addButton addTarget:self action:@selector(addNewItem:) forControlEvents:UIControlEventTouchUpInside];
-//    UITableView *tv
-    tv = [[UITableView alloc] initWithFrame:_tabbedView.contentViewBounds style:UITableViewStyleGrouped];
+    
+    UIButton *editButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [editButton addTarget:self action:@selector(editItems:) forControlEvents:UIControlEventTouchUpInside];
+    
+    inventoryTable = [[UITableView alloc] initWithFrame:_tabbedView.contentViewBounds style:UITableViewStyleGrouped];
     UINib *nib = [UINib nibWithNibName:@"HomepwnerItemCell" bundle:nil];
-    [tv registerNib:nib forCellReuseIdentifier:@"HomepwnerItemCell"];
-
-//    ItemsViewController *tvc = [[ItemsViewController alloc] init];
-//    [_tabbedView set]
-//    tvc.view = tv;
-    tv.dataSource = self;
-    tv.delegate = self;
-    [parentView addSubview:tv];
+    [inventoryTable registerNib:nib forCellReuseIdentifier:@"HomepwnerItemCell"];
+    inventoryTable.dataSource = self;
+    inventoryTable.delegate = self;
+    
+    UIView *parentView = [[UIView alloc] init];
+    [parentView addSubview:inventoryTable];
     [parentView addSubview:addButton];
-//    return tv;
-//    return tvc.view;
+    
     return parentView;
 }
 
-- (UIView *)showEditView:(SEssentialsTabbedView *)_tabbedView
+#pragma mark - SEssentialsTabbedViewDataSource helper methods
+
+- (UIView *)createYouTubeEditorVideo:(CGSize)size
 {
-    UIView *parent = [[UIView alloc] initWithFrame:_tabbedView.contentViewBounds];
-    
-    float width = 309.0f;
-    float height = 196.0f;
-    
     UIWebView *wv = [[UIWebView alloc] init];
-    float x = _tabbedView.contentViewBounds.size.width / 2.0f -
-            width / 2.0f;
-    float y = _tabbedView.contentViewBounds.size.height / 2.0f -
-            height / 2.0f;
-    NSInteger toolbarWidth = 50;
-    wv.frame = CGRectMake(x + toolbarWidth, y, width, height);
+
+    float width = 185.4f;
+    float height = 117.6f;
+    float x = size.width / 2.0f - width / 2.0f;
+    float y = size.height / 2.0f - height / 2.0f;
+    wv.frame = CGRectMake(x, y, width, height);
     
+    NSString *youTubeURL = @"http://www.youtube.com/embed/9SEaSW1jtnQ";
     NSMutableString *html = [[NSMutableString alloc] initWithCapacity:1];
     [html appendString:@"<html><head>"];
     [html appendString:@"<style type=\"text/css\">"];
@@ -157,113 +174,79 @@
     [html appendString:@"}"];
     [html appendString:@"</style>"];
     [html appendString:@"</head><body style=\"margin:0\">"];
-    [html appendFormat:@"<iframe class=\"youtube-player\" type=\"text/html\" width=\"%f\" height=\"%f\" src=\"http://www.youtube.com/embed/Gyf1kjaUZCo?autoplay=1\" allowfullscreen frameborder=\"0\"></iframe>", width, height];
+    [html appendFormat:@"<iframe class=\"youtube-player\" type=\"text/html\" width=\"%f\" height=\"%f\" src=\"%@?autoplay=1\" allowfullscreen frameborder=\"0\"></iframe>", width, height, youTubeURL];
     [html appendString:@"</body></html>"];
     
     [wv loadHTMLString:html baseURL:nil];
     
-    SKView *skView = [[SKView alloc] initWithFrame:_tabbedView.contentViewBounds];
-    skView.showsFPS = YES;
-    skView.showsNodeCount = YES;
-    
-    // Create and configure the scene.
-    SKScene *scene = [CMDMyScene sceneWithSize:skView.bounds.size];
-    scene.scaleMode = SKSceneScaleModeAspectFill;
-    // Present the scene.
-    [skView presentScene:scene];
-    
-    [parent addSubview:skView];
-    [parent addSubview:wv];
-    
-    //    return [[SKView alloc] initWithFrame:_tabbedView.contentViewBounds];
-    //    return skView;
-    return parent;
+    return wv;
 }
 
-- (UIView *)showGalleryView:(SEssentialsTabbedView *)_tabbedView
+-(void)createYouTubeInventoryVideos
 {
-    [self createYouTubeVideoViews];
-    carousel = [[SEssentialsCoverFlow alloc]
-                initWithFrame:_tabbedView.bounds];
-    carousel.dataSource = self;
-    carousel.delegate = self;
-    return carousel;
-}
-
--(void)createYouTubeVideoViews
-{
-    items = [[NSMutableArray alloc] init];
+    inventoryItems = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i < 10; i++)
-    {
-//        UILabel *item = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-//        item.backgroundColor = [UIColor grayColor];
-//        item.text = [NSString stringWithFormat:@"%d", i];
-        //        item.textAlignment = NSTextAlignmentCenter;
+    for (int i = 0; i < 5; i++) {
         float width = 309.0f;
         float height = 196.0f;
 
         UIWebView *wv = [[UIWebView alloc] init];
-        float x = 568 / 2.0f -
-        width / 2.0f;
-        float y = 320 / 2.0f -
-        height / 2.0f;
+        float x = 568 / 2.0f - width / 2.0f;
+        float y = 320 / 2.0f - height / 2.0f;
         wv.frame = CGRectMake(x, y, width, height);
         
-        NSMutableString *html = [[NSMutableString alloc] initWithCapacity:1];
-        [html appendString:@"<html><head>"];
-        [html appendString:@"<style type=\"text/css\">"];
-        [html appendString:@"body {"];
-        [html appendString:@"background-color: transparent;"];
-        [html appendString:@"color: white;"];
-        [html appendString:@"}"];
-        [html appendString:@"</style>"];
-        [html appendString:@"</head><body style=\"margin:0\">"];
-        [html appendFormat:@"<iframe class=\"youtube-player\" type=\"text/html\" width=\"%f\" height=\"%f\" src=\"http://www.youtube.com/embed/Gyf1kjaUZCo?autoplay=1\" allowfullscreen frameborder=\"0\"></iframe>", width, height];
-        [html appendString:@"</body></html>"];
+        NSMutableString *htmlBase = [[NSMutableString alloc] initWithCapacity:1];
+        [htmlBase appendString:@"<html><head>"];
+        [htmlBase appendString:@"<style type=\"text/css\">"];
+        [htmlBase appendString:@"body {"];
+        [htmlBase appendString:@"background-color: transparent;"];
+        [htmlBase appendString:@"color: white;"];
+        [htmlBase appendString:@"}"];
+        [htmlBase appendString:@"</style>"];
+        [htmlBase appendString:@"</head><body style=\"margin:0\">"];
         
-        [wv loadHTMLString:html baseURL:nil];
-
-        [items addObject:wv];
+        NSString *youTubeIframeAndEndTag;
+        switch (i) {
+            case 1:
+                youTubeIframeAndEndTag = [NSString stringWithFormat:@"%@<iframe class=\"youtube-player\" type=\"text/html\" width=\"%f\" height=\"%f\" src=\"http://www.youtube.com/embed/Gyf1kjaUZCo?autoplay=1\" allowfullscreen frameborder=\"0\"></iframe></body></html>", htmlBase, width, height];
+                break;
+            case 2:
+                youTubeIframeAndEndTag = [NSString stringWithFormat:@"%@<iframe class=\"youtube-player\" type=\"text/html\" width=\"%f\" height=\"%f\" src=\"http://www.youtube.com/embed/jEruuqRq50g?autoplay=1\" allowfullscreen frameborder=\"0\"></iframe></body></html>", htmlBase, width, height];
+                break;
+            case 3:
+                youTubeIframeAndEndTag = [NSString stringWithFormat:@"%@<iframe class=\"youtube-player\" type=\"text/html\" width=\"%f\" height=\"%f\" src=\"http://www.youtube.com/embed/O9XtK6R1QAk?autoplay=1\" allowfullscreen frameborder=\"0\"></iframe></body></html>", htmlBase, width, height];
+                break;
+            case 4:
+                youTubeIframeAndEndTag = [NSString stringWithFormat:@"%@<iframe class=\"youtube-player\" type=\"text/html\" width=\"%f\" height=\"%f\" src=\"http://www.youtube.com/embed/9DnQLI1XDzI?autoplay=1\" allowfullscreen frameborder=\"0\"></iframe></body></html>", htmlBase, width, height];
+                break;
+            case 5:
+                youTubeIframeAndEndTag = [NSString stringWithFormat:@"%@<iframe class=\"youtube-player\" type=\"text/html\" width=\"%f\" height=\"%f\" src=\"http://www.youtube.com/embed/fUIokQ36rbA?autoplay=1\" allowfullscreen frameborder=\"0\"></iframe></body></html>", htmlBase, width, height];
+                break;
+        }
+        [wv loadHTMLString:youTubeIframeAndEndTag baseURL:nil];
+        
+        [inventoryItems addObject:wv];
     }
 }
 
+#pragma mark - SEssentialsCarouselDataSource methods
+
 - (NSUInteger)numberOfItemsInCarousel:(SEssentialsCarousel *)carousel
 {
-    return [items count];
+    return [inventoryItems count];
 }
 
 - (UIView *)carousel:(SEssentialsCarousel *)carousel itemAtIndex:(NSInteger)index
 {
-    return [items objectAtIndex:index];
+    return [inventoryItems objectAtIndex:index];
 }
+
+#pragma mark - SEssentialsCarouselDelegate methods
 
 -(void)carousel:(SEssentialsCarousel*)carousel_ didTapItem:(UIView*)item atOffset:(CGFloat)offset
 {
-//    [(UIWebView *)item reload];
-//    float width = 309.0f;
-//    float height = 196.0f;
-//
-//    NSMutableString *html = [[NSMutableString alloc] initWithCapacity:1];
-//    [html appendString:@"<html><head>"];
-//    [html appendString:@"<style type=\"text/css\">"];
-//    [html appendString:@"body {"];
-//    [html appendString:@"background-color: transparent;"];
-//    [html appendString:@"color: white;"];
-//    [html appendString:@"}"];
-//    [html appendString:@"</style>"];
-//    [html appendString:@"</head><body style=\"margin:0\">"];
-//    [html appendFormat:@"<iframe class=\"youtube-player\" type=\"text/html\" width=\"%f\" height=\"%f\" src=\"http://www.youtube.com/embed/Gyf1kjaUZCo?autoplay=1\" allowfullscreen frameborder=\"0\"></iframe>", width, height];
-//    [html appendString:@"</body></html>"];
-//    
-//    [(UIWebView *)item loadHTMLString:html baseURL:nil];
-    [items removeObjectIdenticalTo:item];
-    [carousel reloadData];
-}
-
--(void)carousel:(SEssentialsCarousel*)carousel willDisplayItem:(UIView*)item atOffset:(CGFloat)offset
-{
-//    [(UIWebView *)item reload];
+    // @togo do something interesting like play/pause the selected video
+    // currently not working with MOV videos so using YouTube videos instead
 }
 
 #pragma mark - Utility methods
@@ -274,7 +257,7 @@
     [tabbedView addTab:tab atIndex:0];
 }
 
-#pragma mark - UITableView data source and delegate stuff
+#pragma mark - UITableViewDataSource
 
 - (void)tableView:(UITableView *)tableView
 moveRowAtIndexPath:(NSIndexPath *)fromIndexPath

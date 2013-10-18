@@ -14,7 +14,7 @@
 #import <ShinobiEssentials/SEssentialsCoverFlow.h>
 
 @interface CMDViewController : UIViewController<SEssentialsTabbedViewDataSource,
-SEssentialsCarouselDataSource, SEssentialsCarouselDelegate,
-UITableViewDataSource, UITableViewDelegate>
+                                            SEssentialsCarouselDataSource, SEssentialsCarouselDelegate,
+                                            UITableViewDataSource, UITableViewDelegate>
 
 @end
