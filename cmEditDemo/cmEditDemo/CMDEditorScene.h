@@ -10,8 +10,4 @@
 
 @interface CMDEditorScene : SKScene
 
-@property (nonatomic) UIViewController *vcparent;
-
-- (void)setupPrefabEditorAssets;
-
 @end

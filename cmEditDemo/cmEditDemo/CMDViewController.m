@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 __MyCompanyName__. All rights reserved.
 //
 
+#import <Social/Social.h>
 #import <ShinobiEssentials/SEssentials.h>
 
 #import "CMDViewController.h"
@@ -19,8 +20,12 @@
 {
     SEssentialsTabbedView *tabbedView;
     SEssentialsCoverFlow *galleryCarousel;
+    
     UITableView *inventoryTable;
     NSMutableArray *inventoryItems;
+    
+    UIButton *tweetButton;
+    UIButton *postFBButton;
 }
 @end
 
@@ -36,6 +41,11 @@
 {
     [super viewDidAppear:animated];
     [tabbedView activateTabDisplayedAtIndex:0];
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -93,25 +103,24 @@
 - (UIView *)showEditorView:(SEssentialsTabbedView *)_tabbedView
 {
     SKView *skView = [[SKView alloc] initWithFrame:_tabbedView.contentViewBounds];
-//    skView.showsFPS = YES;
-//    skView.showsNodeCount = YES;
     
     CMDEditorScene *scene = [CMDEditorScene sceneWithSize:skView.bounds.size];
     scene.scaleMode = SKSceneScaleModeAspectFill;
-    scene.vcparent = self;
-    [scene setupPrefabEditorAssets];
-
     [skView presentScene:scene];
     
     UIView *parent = [[UIView alloc] initWithFrame:_tabbedView.contentViewBounds];
     [parent addSubview:skView];
     [parent addSubview:[self createYouTubeEditorVideo:_tabbedView.contentViewBounds.size]];
+    [self createSocialSharingButtons:_tabbedView];
+    [parent addSubview:tweetButton];
+    [parent addSubview:postFBButton];
     
     return parent;
 }
 
 - (UIView *)showGalleryView:(SEssentialsTabbedView *)_tabbedView
 {
+    [self removeSocialSharingButtons];
     [self createYouTubeInventoryVideos];
     galleryCarousel = [[SEssentialsCoverFlow alloc]
                        initWithFrame:_tabbedView.bounds];
@@ -180,6 +189,33 @@
     return wv;
 }
 
+- (void)createSocialSharingButtons:(SEssentialsTabbedView *)_tabbedView
+{
+    float offset = -75.0f;
+    CGRect frame = CGRectMake(_tabbedView.contentViewBounds.size.width - 65.0f,
+                              _tabbedView.contentViewBounds.size.height / 2.0f + offset,
+                              50.0f, 50.0f);
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"twitterLogo" ofType:@"png"];
+    tweetButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [tweetButton setImage:[UIImage imageWithContentsOfFile:imagePath] forState:UIControlStateNormal];
+    [tweetButton setTitle:@"Tweet" forState:UIControlStateNormal];
+    tweetButton.frame = frame;
+    [tweetButton addTarget:self action:@selector(tweet:) forControlEvents:UIControlEventTouchUpInside];
+    
+    postFBButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    imagePath = [[NSBundle mainBundle] pathForResource:@"FBLogo" ofType:@"png"];
+    [postFBButton setImage:[UIImage imageWithContentsOfFile:imagePath] forState:UIControlStateNormal];
+    frame.origin.y += frame.size.height + 10.0f;
+    postFBButton.frame = frame;
+    [postFBButton addTarget:self action:@selector(postOnFB:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)removeSocialSharingButtons
+{
+    tweetButton = nil;
+    postFBButton = nil;
+}
+
 -(void)createYouTubeInventoryVideos
 {
     inventoryItems = [[NSMutableArray alloc] init];
@@ -224,6 +260,30 @@
         [wv loadHTMLString:youTubeIframeAndEndTag baseURL:nil];
         
         [inventoryItems addObject:wv];
+    }
+}
+
+#pragma mark - IBAction mappings for editor tab
+
+- (IBAction)tweet:(id)sender
+{
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
+        SLComposeViewController *tweetSheet = [SLComposeViewController
+                                               composeViewControllerForServiceType:SLServiceTypeTwitter];
+        NSString *tweetText = [NSString stringWithFormat:@"Holy crap! The Cat from Outer Space is an awesome flick! You should see it http://www.imdb.com/title/tt0077305"];
+        [tweetSheet setInitialText:tweetText];
+        [self presentViewController:tweetSheet animated:YES completion:nil];
+    }
+}
+
+- (IBAction)postOnFB:(id)sender
+{
+    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+        SLComposeViewController *fbCompVC = [SLComposeViewController
+                                             composeViewControllerForServiceType:SLServiceTypeFacebook];
+        NSString *postText = [NSString stringWithFormat:@"Holy crap! The Cat from Outer Space is an awesome flick! You should see it http://www.imdb.com/title/tt0077305"];
+        [fbCompVC setInitialText:postText];
+        [self presentViewController:fbCompVC animated:YES completion:nil];
     }
 }
 

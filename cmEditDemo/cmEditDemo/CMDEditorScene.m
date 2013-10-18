@@ -8,8 +8,6 @@
 
 #import "CMDEditorScene.h"
 
-#import <Social/Social.h>
-
 @interface CMDEditorScene () 
  
 @property (nonatomic, strong) SKSpriteNode *background;
@@ -30,6 +28,8 @@ static NSString * const kMoveableVideoTypeTag = @"moveableVideo";
         [_background setName:@"background"];
         [_background setAnchorPoint:CGPointZero];
         [self addChild:_background];
+        
+        [self setupPrefabEditorAssets];
     }
     
     return self;
@@ -132,10 +132,11 @@ float degToRad(float degree)
     [_background addChild:titleLogo];
     
     // setup ad video
+    float offset = 15.0f;
     SKVideoNode *adVideo = [SKVideoNode videoNodeWithVideoFileNamed:@"IMG_0007.MOV"];
     [adVideo setName:kMoveableVideoTypeTag];
     adVideo.size = CGSizeMake(80.0f, 60.0f);
-    [adVideo setPosition:CGPointMake(self.frame.size.width - adVideo.frame.size.width / 2.0f, 225.0f)];
+    [adVideo setPosition:CGPointMake(self.frame.size.width - adVideo.frame.size.width / 2.0f, 225.0f + offset)];
     [_background addChild:adVideo];
     
     // setup banner ads
@@ -158,23 +159,6 @@ float degToRad(float degree)
                                  CGRectGetMidY(self.frame) - 50.0f);
     blurb.fontColor = [UIColor whiteColor];
     [_background addChild:blurb];
-    
-    // setup social sharing buttons
-//    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
-//        SLComposeViewController *tweetSheet = [SLComposeViewController
-//                                               composeViewControllerForServiceType:SLServiceTypeTwitter];
-//        NSString *tweetText = [NSString stringWithFormat:@"Holy crap! The Cat from Outer Space is an awesome flick! You should see it http://www.imdb.com/title/tt0077305"];
-//        [tweetSheet setInitialText:tweetText];
-//        [self.vcparent presentViewController:tweetSheet animated:YES completion:nil];
-//    }
-
-    if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
-        SLComposeViewController *fbCompVC = [SLComposeViewController
-                                               composeViewControllerForServiceType:SLServiceTypeFacebook];
-        NSString *postText = [NSString stringWithFormat:@"Holy crap! The Cat from Outer Space is an awesome flick! You should see it http://www.imdb.com/title/tt0077305"];
-        [fbCompVC setInitialText:postText];
-        [self.vcparent presentViewController:fbCompVC animated:YES completion:nil];
-    }
 }
 
 @end
