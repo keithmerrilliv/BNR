@@ -7,15 +7,9 @@
 //
 
 #import "CMDAppDelegate.h"
+#import "BNRItemStore.h"
 
 #import <ShinobiEssentials/SEssentials.h>
-
-//@interface CMDAppDelegate ()
-//{
-//    CMDViewController *viewController; //## alternatively private property
-//}
-//
-//@end
 
 @implementation CMDAppDelegate
 
@@ -37,6 +31,12 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    BOOL success = [[BNRItemStore defaultStore] saveChanges];
+    if(success) {
+        NSLog(@"Saved all of the BNRItems");
+    } else {
+        NSLog(@"Could not save any of the BNRItems");
+    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
