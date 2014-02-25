@@ -21,6 +21,8 @@ static NSString * const kMoveableVideoTypeTag = @"moveableVideo";
 
 @implementation CMDEditorScene
 
+#pragma mark - UIView lifecycle methods
+
 - (id)initWithSize:(CGSize)size
 {
     if (self = [super initWithSize:size]) {
@@ -52,6 +54,8 @@ static NSString * const kMoveableVideoTypeTag = @"moveableVideo";
     [[self view] addGestureRecognizer:panGR];
 }
 
+#pragma mark - tap gesture handling
+
 - (void)handleTapFrom:(UITapGestureRecognizer *)tapGR
 {
     if (tapGR.state == UIGestureRecognizerStateEnded) {
@@ -76,6 +80,8 @@ static NSString * const kMoveableVideoTypeTag = @"moveableVideo";
     }
 }
 
+#pragma mark - pan gesture handling
+
 - (void)handlePanFrom:(UIPanGestureRecognizer *)panGR
 {
 	if (panGR.state == UIGestureRecognizerStateBegan) {
@@ -89,21 +95,23 @@ static NSString * const kMoveableVideoTypeTag = @"moveableVideo";
         [panGR setTranslation:CGPointZero inView:panGR.view];
     } else if (panGR.state == UIGestureRecognizerStateEnded) {
         [_selectedNode removeAllActions];
-		[_selectedNode runAction:[SKAction rotateToAngle:0.0f duration:0.1]];
+        // stop the wiggle animation
+		[_selectedNode runAction:[SKAction rotateToAngle:0.0f duration:0.1f]];
     }
 }
 
 - (void)selectNodeForPan:(CGPoint)touchLocation
 {
-   SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:touchLocation];
+    SKSpriteNode *touchedNode = (SKSpriteNode *)[self nodeAtPoint:touchLocation];
     [_selectedNode removeAllActions];
-    [_selectedNode runAction:[SKAction rotateToAngle:0.0f duration:0.1]];
+    [_selectedNode runAction:[SKAction rotateToAngle:0.0f duration:0.1f]];
 
     _selectedNode = touchedNode;
     if ([[touchedNode name] isEqualToString:kMoveableNodeTypeTag] ||
        [[touchedNode name] isEqualToString:kMoveableVideoTypeTag]) {
+        // provide an affordance through a wiggle animation
         SKAction *sequence = [SKAction sequence:@[[SKAction rotateByAngle:degToRad(-2.5f) duration:0.1f],
-                                                  [SKAction rotateByAngle:0.0 duration:0.1],
+                                                  [SKAction rotateByAngle:0.0f duration:0.1f],
                                                   [SKAction rotateByAngle:degToRad(2.5f) duration:0.1f]]];
         [_selectedNode runAction:[SKAction repeatActionForever:sequence]];
     }
@@ -118,10 +126,14 @@ static NSString * const kMoveableVideoTypeTag = @"moveableVideo";
     }
 }
 
-float degToRad(float degree)
+CGFloat degToRad(CGFloat degree)
 {
+    // GLKMathDegreesToRadians could be used instead, particularly if we
+    // extend/customize a node or the scene with OpenGLES
 	return degree / 180.0f * M_PI;
 }
+
+#pragma mark - setup prefabs
 
 - (void)setupPrefabEditorAssets
 {
