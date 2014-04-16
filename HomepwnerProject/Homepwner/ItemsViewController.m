@@ -23,11 +23,6 @@
     // Call the superclass's designated initializer
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
-// create some items as required
-//        for (int i = 0; i < 20; i++) {
-//            [[BNRItemStore sharedStore] createItem];
-//        }
-        
         UINavigationItem *n = [self navigationItem];
         [n setTitle:@"Homepwner"];
         
@@ -38,9 +33,10 @@
                                 target:self
                                 action:@selector(addNewItem:)];
         
-        // Set thi var button item as the right item in the navigationItem
+        // Set this var button item as the right item in the navigationItem
         [[self navigationItem] setRightBarButtonItem:bbi];
         
+        // Send automatically sends setEditing:animated:
         [[self navigationItem] setLeftBarButtonItem:[self editButtonItem]];
     }
     return self;
@@ -53,9 +49,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Create an instance of UITableViewCell, with default appearance
-//    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-//                                                   reuseIdentifier:@"UITableViewCell"];
     // Check for a reusable cell first, use that if it exists
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
     
@@ -79,44 +72,6 @@
 {
     return [[[BNRItemStore sharedStore] allItems] count];
 }
-
-//- (UIView *)headerView
-//{
-//    // If we haven't loaded the headerView yet...
-//    if (!headerView) {
-//        // Load HeaderView.xib
-//        [[NSBundle mainBundle] loadNibNamed:@"HeaderView" owner:self options:nil];
-//    }
-//    
-//    return headerView;
-//}
-
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-//    return [self headerView];
-//}
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//    // The height of the header view should be determined from the height of the view in the XIB file
-//    return [[self headerView] bounds].size.height;
-//}
-
-//- (IBAction)toggleEditingMode:(id)sender
-//{
-//    // If we are currently in editing mode...
-//    if ([self isEditing]) {
-//        // Change text of button to inform user of state
-//        [sender setTitle:@"Edit" forState:UIControlStateNormal];
-//        // Turn off editing mode
-//        [self setEditing:NO animated:YES];
-//    } else {
-//        // Change text of button to inform user of state
-//        [sender setTitle:@"Done" forState:UIControlStateNormal];
-//        // Turn on editing mode
-//        [self setEditing:YES animated:YES];
-//    }
-//}
 
 - (IBAction)addNewItem:(id)sender
 {
