@@ -53,4 +53,35 @@
     [[self navigationItem] setTitle:[self.item itemName]];
 }
 
+- (IBAction)takePicture:(id)sender
+{
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    
+    // If our device has a camera, we want to take a picture, otherwise we just pick from photo library
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [imagePicker setSourceType:UIImagePickerControllerSourceTypeCamera];
+    } else {
+        [imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+    }
+    
+    [imagePicker setDelegate:self];
+    
+    [self presentViewController:imagePicker animated:YES completion:nil];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    // Get picked image from info dictionary
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    // Put that image onto the screen in our image view
+    [imageView setImage:image];
+    
+    // Take image picker off the screen
+    // You must call this dismiss method
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end
