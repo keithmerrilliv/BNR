@@ -21,6 +21,7 @@
 		883C06FF178335980049870D /* ItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 883C06FE178335980049870D /* ItemsViewController.m */; };
 		883C070417833A190049870D /* BNRItemStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 883C070317833A190049870D /* BNRItemStore.m */; };
 		88768D961783496400A65070 /* BNRItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 883C0701178337CA0049870D /* BNRItem.m */; };
+		88B42EB418FF4C0D00EC78A5 /* BNRImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B42EB318FF4C0D00EC78A5 /* BNRImageStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,8 @@
 		883C0701178337CA0049870D /* BNRItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BNRItem.m; sourceTree = "<group>"; };
 		883C070217833A190049870D /* BNRItemStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRItemStore.h; sourceTree = "<group>"; };
 		883C070317833A190049870D /* BNRItemStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRItemStore.m; sourceTree = "<group>"; };
+		88B42EB218FF4C0D00EC78A5 /* BNRImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRImageStore.h; sourceTree = "<group>"; };
+		88B42EB318FF4C0D00EC78A5 /* BNRImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRImageStore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +95,8 @@
 		883C06E31783349F0049870D /* Homepwner */ = {
 			isa = PBXGroup;
 			children = (
+				88B42EB218FF4C0D00EC78A5 /* BNRImageStore.h */,
+				88B42EB318FF4C0D00EC78A5 /* BNRImageStore.m */,
 				883C0700178337CA0049870D /* BNRItem.h */,
 				883C0701178337CA0049870D /* BNRItem.m */,
 				883C070217833A190049870D /* BNRItemStore.h */,
@@ -191,6 +196,7 @@
 			files = (
 				883C06EA1783349F0049870D /* main.m in Sources */,
 				883C06EE1783349F0049870D /* HomepwnerAppDelegate.m in Sources */,
+				88B42EB418FF4C0D00EC78A5 /* BNRImageStore.m in Sources */,
 				883C06FF178335980049870D /* ItemsViewController.m in Sources */,
 				883C070417833A190049870D /* BNRItemStore.m in Sources */,
 				88768D961783496400A65070 /* BNRItem.m in Sources */,
